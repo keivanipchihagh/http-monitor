@@ -5,7 +5,7 @@ from knox.views import LoginView, LogoutView
 from rest_framework import permissions, generics
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
-from authentication.models import User
+from .models import User
 
 
 class SignInView(LoginView):
