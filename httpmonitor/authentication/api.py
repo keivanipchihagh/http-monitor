@@ -1,16 +1,15 @@
 from django.contrib.auth import login
+from .serializers import UserSerializer
 from knox.auth import TokenAuthentication
+from knox.views import LoginView, LogoutView
 from rest_framework import permissions, generics
 from rest_framework.authtoken.serializers import AuthTokenSerializer
-from knox.views import LoginView as KnoxLoginView
-from knox.models import AuthToken
-from .serializers import UserSerializer
-from rest_framework.response import Response
 
 from authentication.models import User
 
 
-class LoginView(KnoxLoginView):
+class SignInView(LoginView):
+    """ Signs in user (login) """
     permission_classes = (permissions.AllowAny,)
     authentication_classes = [TokenAuthentication]
 
@@ -19,11 +18,18 @@ class LoginView(KnoxLoginView):
         serializer.is_valid(raise_exception = True)
         user = serializer.validated_data['user']
         login(request, user)
-        return super(LoginView, self).post(request, format = None)        
+        return super(SignInView, self).post(request, format = None)
 
 
-class RegisterApi(generics.CreateAPIView):
+class SignUpApi(generics.CreateAPIView):
+    """Signs up user (register)  """
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
-    authentication_classes = [TokenAuthentication]        
+    authentication_classes = [TokenAuthentication]
+
+
+class SignOutApi(LogoutView):
+    """ Signs out user """
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = [TokenAuthentication]
