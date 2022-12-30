@@ -3,11 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 
 
-PHONE_NUMBER_VALIDATOR = RegexValidator(
-    regex = r'^\+?1?\d{9,15}$',
-    message = 'Phone number must be entered in the format: +999999999. Up to 15 digits allowed.'
-)
-
 USERNAME_VALIDATOR = RegexValidator(
     regex = r'^[a-zA-Z0-9_.-]+$',
     message = 'Username must be alphanumeric, with no spaces.'
@@ -47,26 +42,6 @@ class User(AbstractUser):
         validators = [EMAIL_ADDRESS_VALIDATOR],
         unique = True,
         verbose_name = 'Email Address'
-    )
-
-    phone_number = models.CharField(
-        max_length = 12,
-        validators = [PHONE_NUMBER_VALIDATOR],
-        null = True,
-        blank = True,
-        verbose_name = 'Phone Number'
-    )
-
-    birth_date = models.DateField(
-        null = True,
-        blank = True,
-        verbose_name = 'Birth Date'
-    )
-
-    photo_dir = models.CharField(
-        max_length = 200,
-        null = True,
-        blank = True,
     )
 
     USERNAME_FIELD = 'email'

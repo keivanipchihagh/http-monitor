@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
 
-    'auth'
+    'authentication.apps.AuthenticationConfig'
 ]
 
 MIDDLEWARE = [
@@ -86,7 +86,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'http-monitor',
-        'USER': os.environ.get("POSTGRES_USERAME"),
+        'USER': os.environ.get("POSTGRES_USERNAME"),
         'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
         'HOST': os.environ.get("POSTGRES_HOST"),
         'PORT': os.environ.get("POSTGRES_PORT"),
@@ -116,7 +116,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
 }
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'authentication.User'
 
 
 # Internationalization
