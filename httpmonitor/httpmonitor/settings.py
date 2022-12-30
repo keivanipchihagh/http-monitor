@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
-from datetime import timedelta
 from pathlib import Path
+from ast import literal_eval
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,7 +31,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEVELOPMENT", 'False').lower() in ('true', '1', 't')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = literal_eval(os.getenv("ALLOWED_HOSTS"))
 
 
 # Application definition

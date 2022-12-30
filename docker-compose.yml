@@ -6,31 +6,42 @@ services:
     container_name: httpmonitor
     image: httpmonitor
     build:
-      context: ./httpmonitor
+      context: .
       dockerfile: Dockerfile
     env_file:
       - .env
     command:
       - python3
       - -u
-      - runserver 0.0.0.0:8000
+      - httpmonitor/manage.py
+      - runserver
+      - 0.0.0.0:8000
     ports:
       - 4215:8000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:8000/"]
       interval: 60s
       timeout: 10s
       retries: 3
+    networks:
+      - services
 
   monitor:
     container_name: monitor
-    image: monitor
+    image: httpmonitor
     build:
-      context: ./monitor
+      context: .
       dockerfile: Dockerfile
     env_file:
       - .env
     command:
       - python3
       - -u
-      - worker.py
+      - monitor/worker.py
+    networks:
+      - services
+
+networks:
+  services:
+    name: services
+    external: true
