@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
 
-    'authentication.apps.AuthenticationConfig'
+    'authentication.apps.AuthenticationConfig',
+    'tracker.apps.TrackerConfig',
 ]
 
 MIDDLEWARE = [
