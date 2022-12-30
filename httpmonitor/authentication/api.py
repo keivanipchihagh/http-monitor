@@ -33,3 +33,9 @@ class SignOutApi(LogoutView):
     """ Signs out user """
     permission_classes = (permissions.AllowAny,)
     authentication_classes = [TokenAuthentication]
+
+
+class SignOutAllApi(LogoutView):
+    """ Signs out user from everywhere """
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = [TokenAuthentication]
