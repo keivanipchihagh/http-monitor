@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "8890feb8-efe4-4a82-90a6-e582acbbbad9",
+		"name": "http-monitor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18527721"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "sign-up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstname",
+									"value": "Keivan",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "lastname",
+									"value": "Ipchi Hagh",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "keivanipchihagh",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "keivanipchihagh@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "firstname",
+									"value": "Kiana",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Ipchi Hagh",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "kianaipchihagh",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "kianaipchihagh@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/auth/api/signup/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"api",
+								"signup",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "keivanipchihagh",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "kianaipchihagh",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/auth/api/signin/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"api",
+								"signin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sign-out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token d418e09d53b1cc8e9a99221de1dd97382034ffccba402eb291e4f552eea76c02",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/auth/api/signout/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"api",
+								"signout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tracker",
+			"item": [
+				{
+					"name": "add-address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token b30805f44fcba1db986136b27223bb5a5f2e280dbbe202dca94717fc060e3486",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "url",
+									"value": "https://twitter.com/",
+									"type": "text"
+								},
+								{
+									"key": "threshold",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "interval",
+									"value": "30",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tracker/api/add-address/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tracker",
+								"api",
+								"add-address",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-addresses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token b30805f44fcba1db986136b27223bb5a5f2e280dbbe202dca94717fc060e3486",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tracker/api/get-addresses/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tracker",
+								"api",
+								"get-addresses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-address-status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token b30805f44fcba1db986136b27223bb5a5f2e280dbbe202dca94717fc060e3486",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tracker/api/get-address-status/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tracker",
+								"api",
+								"get-address-status",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-address-warnings",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 3418c3f059ada1c3e4915fbce8b529fcdf5ab149b3248ea76529dbe3e442a50e",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/tracker/api/get-address-warnings/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"tracker",
+								"api",
+								"get-address-warnings",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
