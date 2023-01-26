@@ -38,6 +38,43 @@ class GetAddresses(APIView):
         return Response(data = addresses, status = status.HTTP_200_OK)
 
 
+class GetAddressWarnings(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format = None):
+        requests = Request.objects.raw(f"""
+            with _all as (
+                select
+                    1 as id,
+                    url,
+                    tracker_warning.created_at
+                from
+                    tracker_request
+                inner join tracker_address
+                    on tracker_address.id = tracker_request.track_id
+                inner join tracker_warning
+                    on tracker_warning.tracker_id = tracker_address.id
+                inner join authentication_user
+                    on authentication_user.id = tracker_address.user_id
+                where
+                    authentication_user.id = 1
+                    and tracker_warning.created_at > current_date - interval '24 hours'
+            )
+            select distinct * from _all
+        """)
+
+        data = {}
+        for request in requests:
+            if request.url in data.keys():
+                data[request.url].append(request.created_at)
+            else:
+                data[request.url] = [request.created_at]
+
+        return Response(data = data, status = status.HTTP_200_OK)
+
+
+
 class GetAddressStatus(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
