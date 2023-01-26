@@ -1,3 +1,4 @@
+from django.core import serializers
 from rest_framework import status
 from rest_framework.views import APIView
 from knox.auth import TokenAuthentication
@@ -42,5 +43,30 @@ class GetAddressStatus(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, format = None):
-        addresses = Address.objects.filter(user_id = self.request.user.id).values("url", "interval", "threshold")
-        return Response(data = addresses, status = status.HTTP_200_OK)
+        requests = Request.objects.raw(f"""
+            select
+                1 as id,
+                url,
+                status_code,
+                count (*) as count
+            from
+                tracker_request
+            inner join tracker_address
+                on tracker_address.id = tracker_request.track_id
+            inner join authentication_user
+                on authentication_user.id = tracker_address.user_id
+            where
+                authentication_user.id = {self.request.user.id}
+                and tracker_request.created_at > current_date - interval '24 hours'
+            group by
+                url, status_code
+        """)
+
+        data = {}
+        for request in requests:
+            if request.url in data.keys():
+                data[request.url][request.status_code] = request.count
+            else:
+                data[request.url] = {request.status_code: request.count}
+
+        return Response(data = data, status = status.HTTP_200_OK)

@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.7'
 
 services:
 
@@ -18,13 +18,8 @@ services:
       - 0.0.0.0:8000
     ports:
       - 4215:8000
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://0.0.0.0:8000/"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
     networks:
-      - services
+      - nginx
 
   monitor:
     container_name: monitor
@@ -39,9 +34,9 @@ services:
       - -u
       - monitor/worker.py
     networks:
-      - services
+      - nginx
 
 networks:
-  services:
-    name: services
+  nginx:
+    name: nginx
     external: true

@@ -1,4 +1,4 @@
-FROM registry.keivanipchihagh.ir/python:3.10-slim
+FROM python:3.10-alpine
 
 ENV DockerHome=/home/services
 
