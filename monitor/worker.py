@@ -29,6 +29,13 @@ def get_address_status(interval):
         response = request.get(row["url"])
         # Insert request record into database
         postgres_client._execute(f"INSERT INTO tracker_request (status_code, created_at, track_id) VALUES ({response.status_code}, '{datetime.now()}', {row['id']})")
+        # Insert warning record into database if status code is not 200
+        if response.status_code != 200:
+            fails = postgres_client._select(f"SELECT COUNT(*) as fails FROM tracker_request WHERE track_id = {row['id']} AND status_code != 200 and created_at > current_date - interval '24 hours'")["fails"].values[0]
+            if fails >= row["threshold"]:
+                postgres_client._execute(f"INSERT INTO tracker_warning (created_at, tracker_id) VALUES ('{datetime.now()}', {row['id']})")
+                print(f"- URL: {row['url']}, Status Code: {response.status_code}, Created At: {datetime.now()}, Warning: True")
+
         # Log
         print(f"- URL: {row['url']}, Status Code: {response.status_code}, Created At: {datetime.now()}")
 
@@ -36,6 +43,7 @@ def get_address_status(interval):
 if __name__ == '__main__':
     print("Worker started.")
     scheduler = BlockingScheduler()
+    get_address_status(5)
     scheduler.add_job(func = get_address_status, max_instances = 9, trigger = "interval", minutes = 1, args = [1])     # every 1 minute
     scheduler.add_job(func = get_address_status, max_instances = 7, trigger = "interval", minutes = 5, args = [5])     # every 5 minute
     scheduler.add_job(func = get_address_status, max_instances = 5, trigger = "interval", minutes = 10, args = [10])   # every 10 minutes
